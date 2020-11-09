@@ -1,11 +1,67 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+class symptomsCount {
+    public int headacheCountInFile(List<String> resultList) {
+
+        int headache = 0;
+        String symptoms;
+        boolean isHeadache;
+
+        for(int i = 0; i<resultList.size(); i++)
+        {
+            System.out.println(resultList.get(i));
+            symptoms = resultList.get(i);
+            isHeadache = symptoms.equals("headache");
+            if(isHeadache==true)
+            {
+                headache++;
+            }
+        }
+
+        return headache;
+    }
+    public int rashCountInFile(List<String> resultList) {
+        
+        int rash = 0;
+        String symptoms;
+        boolean isRash;
+
+        for(int i = 0; i<resultList.size(); i++)
+        {
+            symptoms = resultList.get(i);
+            isRash = symptoms.equals("rash");
+            if(isRash==true)
+            {
+                rash++;
+            }
+        }
+
+        return rash;
+    }
+    public int dPupilsCountInFile(List<String> resultList) {
+        
+        int dPupils = 0;
+        String symptoms;
+        boolean isDPupils;
+
+        for(int i = 0; i<resultList.size(); i++)
+        {
+            symptoms = resultList.get(i);
+            isDPupils = symptoms.equals("dialated pupils");
+            if(isDPupils==true)
+            {
+                dPupils++;
+            }
+        }
+
+        return dPupils;
+    }
+}
 
 class writerClass {
 
@@ -15,11 +71,11 @@ class writerClass {
 
     FileWriter writer = new FileWriter("result.out");
 
-    public String addValuesToFile(int head, int rash, int pupil) {
+    public String addValuesToFile(int head, int rash, int pupils) {
         try {
             writer.write("Headache : " + head + "\n");
             writer.write("Rash : " + rash + "\n");
-            writer.write("Dilated Pupils : " + pupil + "\n");
+            writer.write("Dialated Pupils : " + pupils + "\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,29 +89,20 @@ public class AnalyticsCounter {
 	private static int headacheCount = 0;
 	private static int rashCount = 0;
 	private static int pupilCount = 0;
+
+	static List<String> result = new ArrayList<String>();
+
+    public final static String filepath = "symptoms.txt";
 	
 	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+		
+		ReadSymptomDataFromFile readerClass = new ReadSymptomDataFromFile(filepath);
+        result = readerClass.GetSymptoms();
 
-		int i = 0;	// set i to 0
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headacheCount++;
-				System.out.println("number of headaches: " + headacheCount);
-			}
-			else if (line.equals("rash")) {
-				rashCount++;
-			}
-			else if (line.equals("dialated pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	// get another symptom
-		}
+        symptomsCount countClass = new symptomsCount();
+        headacheCount = countClass.headacheCountInFile(result);
+        rashCount = countClass.rashCountInFile(result);
+        pupilCount = countClass.dPupilsCountInFile(result);
 		
 		writerClass writerClass = new writerClass();
         writerClass.addValuesToFile(headacheCount, rashCount, pupilCount);
