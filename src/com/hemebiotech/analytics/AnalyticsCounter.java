@@ -3,11 +3,36 @@ package com.hemebiotech.analytics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+class writerClass {
+
+    public writerClass() throws IOException {
+        
+    }
+
+    FileWriter writer = new FileWriter("result.out");
+
+    public String addValuesToFile(int head, int rash, int pupil) {
+        try {
+            writer.write("Headache : " + head + "\n");
+            writer.write("Rash : " + rash + "\n");
+            writer.write("Dilated Pupils : " + pupil + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+}
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
+	private static int headacheCount = 0;
+	private static int rashCount = 0;
+	private static int pupilCount = 0;
 	
 	public static void main(String args[]) throws Exception {
 		// first get input
@@ -32,11 +57,7 @@ public class AnalyticsCounter {
 			line = reader.readLine();	// get another symptom
 		}
 		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+		writerClass writerClass = new writerClass();
+        writerClass.addValuesToFile(headacheCount, rashCount, pupilCount);
 	}
 }
