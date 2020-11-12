@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Classe pour compter les symptômes recherchés (Headache, Rash, Dialated Pupils) dans ceux retournés par le FileReader
 class symptomsCount {
+
     public int headacheCountInFile(List<String> resultList) {
 
         int headache = 0;
@@ -24,7 +26,8 @@ class symptomsCount {
         }
 
         return headache;
-    }
+	}
+	
     public int rashCountInFile(List<String> resultList) {
         
         int rash = 0;
@@ -42,7 +45,8 @@ class symptomsCount {
         }
 
         return rash;
-    }
+	}
+	
     public int dPupilsCountInFile(List<String> resultList) {
         
         int dPupils = 0;
@@ -63,15 +67,22 @@ class symptomsCount {
     }
 }
 
+//Classe pour écrire le nombre de Symptôme recherché dans un fichier result.out
 class writerClass {
 
-    public writerClass() throws IOException {
-        
+    FileWriter writer;
+
+    public writerClass() {
+        try {
+            this.writer = new FileWriter("result.out");
+
+        } catch (IOException e) {
+
+        }
+
     }
 
-    FileWriter writer = new FileWriter("result.out");
-
-    public String addValuesToFile(int head, int rash, int pupils) {
+    public void addValuesToFile(int head, int rash, int pupils) {
         try {
             writer.write("Headache : " + head + "\n");
             writer.write("Rash : " + rash + "\n");
@@ -80,25 +91,35 @@ class writerClass {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        finally {
+
+        }
     }
 
 }
 
 public class AnalyticsCounter {
+
 	private static int headacheCount = 0;
 	private static int rashCount = 0;
 	private static int pupilCount = 0;
 
 	static List<String> result = new ArrayList<String>();
 
+	//Chemin d'accés du fichier contenant les Symptômes
     public final static String filepath = "symptoms.txt";
 	
 	public static void main(String args[]) throws Exception {
 		
+		/** 
+		 * 	On instancie la classe ReadSymptomDataFromFile pour utiliser la liste GetSymptoms et pouvoir lire le fichier
+		 * 	contenant les symptômes. 
+		 * 
+		 *  On mets les symptômes obtenus par la liste GetSymptoms dans une liste result.
+		 */
 		ReadSymptomDataFromFile readerClass = new ReadSymptomDataFromFile(filepath);
-        result = readerClass.GetSymptoms();
-
+		result = readerClass.GetSymptoms();
+		
         symptomsCount countClass = new symptomsCount();
         headacheCount = countClass.headacheCountInFile(result);
         rashCount = countClass.rashCountInFile(result);
