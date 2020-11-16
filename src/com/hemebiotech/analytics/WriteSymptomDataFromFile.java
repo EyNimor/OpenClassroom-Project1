@@ -8,6 +8,10 @@ public class WriteSymptomDataFromFile implements ISymptomWriter {
 
     private static String filepath;
 
+    /**
+     * 
+     * @param filepath a full or partial path to the file we have to write
+     */
     public WriteSymptomDataFromFile(String filepath) {
         WriteSymptomDataFromFile.filepath = filepath;
     }
