@@ -1,64 +1,39 @@
 package com.hemebiotech.analytics;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CountSymptomDataFromFile implements ISymptomCounter {
 
     @Override
     /**
-     * Take the list coming from the reader and create a new list by remove the possible symptoms duplications
+     * Take the list coming from the reader and create a new map with symptoms and their number of occurences
+     * 
+     * In the map, the keys are the symptoms and the values are the number of time that symptom appears in the result list
      * 
      * @param result list coming directly from the reader
-     * @return a list of symptoms presents in the result list
+     * @return a map of symptoms and their number of appearence presents in the result list
      */
-    public List<String> symptomsList(List<String> result) {
-        List<String> symptomsList = new ArrayList<>();
+    public Map<String, Integer> symptomsList(List<String> result) {
+        Map<String, Integer> symptomsList = new TreeMap<String, Integer>();
 
+        Integer count; 
         String line;
         boolean ifContains;
         for(int i = 0; i<result.size(); i++) {
             line = result.get(i);
-            ifContains = symptomsList.contains(line);
+            ifContains = symptomsList.containsKey(line);
             if(ifContains == false) {
-                symptomsList.add(line);
+                symptomsList.put(line, 1);
+            }
+            else {
+                count = symptomsList.get(line) + 1;
+                symptomsList.put(line, count);
             }
         }
-        Collections.sort(symptomsList);
 
         return symptomsList;
-    }
-
-    @Override
-    /**
-     * Count the number of time that a symptoms appear in the list coming from the reader
-     * 
-     * @param result list coming directly from the reader
-     * @param symptomsList list containing every symptoms of the .txt file without duplications
-     * @return a list with the number of occurence for each symptoms of the source list
-     */
-    public List<Integer> symptomsCount(List<String> result, List<String> symptomsList) {
-        List<Integer> symptomsCount = new ArrayList<>();
-
-        String researchedLine;
-        String actualLine;
-        boolean ifEquals;
-        Integer count;
-        for(int i = 0; i<symptomsList.size(); i++) {
-            count = 0;
-            researchedLine = symptomsList.get(i);
-            for(int u = 0; u<result.size(); u++) {
-                actualLine = result.get(u);
-                ifEquals = actualLine.equals(researchedLine);
-                if(ifEquals == true) {
-                    count++;
-                }
-            }
-            symptomsCount.add(count);
-        }
-
-        return symptomsCount;
     }
   
 }

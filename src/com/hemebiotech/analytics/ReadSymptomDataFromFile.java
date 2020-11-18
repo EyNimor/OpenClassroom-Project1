@@ -13,6 +13,8 @@ import java.util.List;
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	private String filepath;
+
+	private BufferedReader reader;
 	
 	/**
 	 * 
@@ -33,7 +35,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 		
 		if (filepath != null) {
 			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
+				reader = new BufferedReader (new FileReader(filepath));
 				String line = reader.readLine();
 				
 				while (line != null) {
@@ -43,6 +45,19 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+			finally {
+				if (reader != null) {
+					System.out.println("Closing reader...");
+					try {
+						reader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					System.out.println("Error : Reader not open !");
+				} 
 			}
 		}
 		
