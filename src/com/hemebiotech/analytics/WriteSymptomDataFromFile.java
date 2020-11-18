@@ -2,11 +2,13 @@ package com.hemebiotech.analytics;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 public class WriteSymptomDataFromFile implements ISymptomWriter {
 
     private static String filepath;
+
+    private FileWriter writer;
 
     /**
      * 
@@ -17,21 +19,35 @@ public class WriteSymptomDataFromFile implements ISymptomWriter {
     }
 
     @Override
-    public void symptomsWriter(List<String> symptomsList, List<Integer> symptomsCount) {
+    /**
+     * Made a file "result.out" with every symptoms listed and their occurences
+     * 
+     * @param symptomsList List of symptoms finded in the .txt file.
+     * @param symptomsCount List containing how many times every symptoms appear in the .txt file.
+     */
+    public void symptomsWriter(Map<String, Integer> symptomsList) {
         try {
-            FileWriter writer = new FileWriter(filepath);
+            writer = new FileWriter(filepath);
 
-            String line;
-            Integer count;
-            for(int i = 0; i<symptomsList.size(); i++) {
-                line = symptomsList.get(i);
-                count = symptomsCount.get(i);
-
-                writer.write(line + " : " + count + "\n");
+            for(Map.Entry<String, Integer> entry : symptomsList.entrySet()) {
+                writer.write( entry.getKey() + " : " + entry.getValue() + "\n" );
             }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            if (writer != null) {
+                System.out.println("Closing Writer...");
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                System.out.println("Error : Writer not open !");
+            }
         }
 
     }
