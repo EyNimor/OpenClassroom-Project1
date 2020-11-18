@@ -23,7 +23,12 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 	
 	@Override
-	public List<String> GetSymptoms() {
+	/**
+	 * Read the file indicated in the filepath variable and return entire file in a list
+	 * 
+	 * @return a raw listing of all Symptoms obtained from a data source, duplicates are possible/probable
+	 */
+	public List<String> getSymptoms() {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if (filepath != null) {

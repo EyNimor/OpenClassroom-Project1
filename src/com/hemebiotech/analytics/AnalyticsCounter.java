@@ -20,9 +20,9 @@ public class AnalyticsCounter {
     
 	public static void main(String args[]) throws Exception {
 		ReadSymptomDataFromFile readerClass = new ReadSymptomDataFromFile(readerFilepath);
-        result = readerClass.GetSymptoms();
+        result = readerClass.getSymptoms();
         
-        CountSymptomDataFromFle countClass = new CountSymptomDataFromFle();
+        CountSymptomDataFromFile countClass = new CountSymptomDataFromFile();
         symptomsList = countClass.symptomsList(result);
         symptomsCount = countClass.symptomsCount(result, symptomsList);
 

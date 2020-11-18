@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ISymptomCounter {
     /**
-     * Take the list coming from the reader and create a new list by remove the possible symptoms duplications
+     * 
      * 
      * @param result list coming directly from the reader
      * @return a list of symptoms presents in the result list
@@ -12,7 +12,7 @@ public interface ISymptomCounter {
     List<String>symptomsList(List<String> result);
 
     /**
-     * Count the number of time that a symptoms appear in the list coming from the reader
+     * 
      * 
      * @param result list coming directly from the reader
      * @param symptomsList list containing every symptoms of the .txt file without duplications
