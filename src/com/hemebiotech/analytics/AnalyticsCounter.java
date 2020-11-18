@@ -20,13 +20,13 @@ public class AnalyticsCounter {
     public final static String writerFilepath = "result.out";
     
 	public static void main(String args[]) throws Exception {
-		ReadSymptomDataFromFile readerClass = new ReadSymptomDataFromFile(readerFilepath);
+		ISymptomReader readerClass = new ReadSymptomDataFromFile(readerFilepath);
         result = readerClass.getSymptoms();
         
-        CountSymptomDataFromFile countClass = new CountSymptomDataFromFile();
+        ISymptomCounter countClass = new CountSymptomDataFromFile();
         symptomsList = countClass.symptomsList(result);
 
-        WriteSymptomDataFromFile writerClass = new WriteSymptomDataFromFile(writerFilepath);
+        ISymptomWriter writerClass = new WriteSymptomDataFromFile(writerFilepath);
         writerClass.symptomsWriter(symptomsList);
 	}
 }
