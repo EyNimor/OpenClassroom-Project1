@@ -2,6 +2,8 @@ package com.hemebiotech.analytics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @see ISymptomReader
@@ -11,8 +13,7 @@ import java.util.List;
 public class AnalyticsCounter {
 
     static List<String> result = new ArrayList<String>();
-    static List<String> symptomsList = new ArrayList<String>();
-    static List<Integer> symptomsCount = new ArrayList<Integer>();
+    static Map<String, Integer> symptomsList = new TreeMap<String, Integer>();
 
     // We declare the path to the file to read, and to the file to write
     public final static String readerFilepath = "symptoms.txt";
@@ -20,13 +21,12 @@ public class AnalyticsCounter {
     
 	public static void main(String args[]) throws Exception {
 		ReadSymptomDataFromFile readerClass = new ReadSymptomDataFromFile(readerFilepath);
-        result = readerClass.GetSymptoms();
+        result = readerClass.getSymptoms();
         
-        CountSymptomDataFromFle countClass = new CountSymptomDataFromFle();
+        CountSymptomDataFromFile countClass = new CountSymptomDataFromFile();
         symptomsList = countClass.symptomsList(result);
-        symptomsCount = countClass.symptomsCount(result, symptomsList);
 
         WriteSymptomDataFromFile writerClass = new WriteSymptomDataFromFile(writerFilepath);
-        writerClass.symptomsWriter(symptomsList, symptomsCount);
+        writerClass.symptomsWriter(symptomsList);
 	}
 }
